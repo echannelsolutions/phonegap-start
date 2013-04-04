@@ -4,6 +4,7 @@
     <title>Cordova Device Ready Example</title>
 
     <script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8">
 
         // Call onDeviceReady when Cordova is loaded.
@@ -12,19 +13,61 @@
         // When Cordova is loaded and talking with the native device,
         // it will call the event `deviceready`.
         //
-        function onLoad() {
-            document.addEventListener("deviceready", onDeviceReady, false);
-        }
+//        function onLoad() {
+//            document.addEventListener("deviceready", onDeviceReady, false);
+//        }
 
         // Cordova is loaded and it is now safe to make calls Cordova methods
         //
-        function onDeviceReady() {
-            // Now safe to use the Cordova API
-            alert("Hi How are you ?")
+//        function onDeviceReady() {
+//            // Now safe to use the Cordova API
+//            alert("Hi How are you ?")
+//        }
+
+        function get_number() {
+            // Append a "random" number to the query string to prevent caching:
+            $.get("http://192.168.1.2/mpulse/Login", { email: document.getElementById("ItxtName").value, password: document.getElementById("ItxtPassd").value, num: Math.random() }, function (response) {
+                // If you don't want to pass any data, you can omit the "data" parameter
+                var number = response.Response;
+                $("#Result").html(number);
+
+            }, "json");    // <--- 
         }
 
+
+        $(document).ready(function () {
+            $('#button').click(function () {
+                get_number();
+            });
+        }); 
     </script>
   </head>
-  <body onload="onLoad()">
-  </body>
+ <body style="background-color: #eeeeee; font-family: 'adobe-clean', 'HelveticaNeue-Bold', Helvetica, Arial, sans-serif;">
+    <div style="padding: 50px; width: 300px; margin: 0px auto;">
+        <h2 style="font-weight: 500;">
+            Please Login Here.....</h2>
+        <div>
+            <div id="lblName" style="font-weight: bold; padding: 5px;">
+                User Name :
+            </div>
+            <div id="txtName">
+                <input id="ItxtName" type="text" />
+            </div>
+            <div id="lblPassd" style="font-weight: bold; padding: 5px;">
+                Password :
+            </div>
+            <div id="txtPassd">
+                <input id="ItxtPassd" type="text" />
+            </div>
+            <div style="padding: 20px  0px;">
+                <input id="button" type="button" value="Submit" style="background-color: #209dc2;
+                    color: #fff; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+                    padding: 5px 10px;" />
+            </div>
+            <p style="border: 1px solid black; height: auto;">
+                <span id="Result">Result </span>
+            </p>
+        </div>
+    </div>
+</body>
 </html>
